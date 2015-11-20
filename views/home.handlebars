@@ -10,6 +10,24 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css" />
     <link rel="stylesheet" type="text/css" media="all and (orientation:portrait)" href="/stylesheets/p.css" /> 
     <link rel="stylesheet" type="text/css" media="all and (orientation:landscape)" href="/stylesheets/l.css" />
+    <script id="tmpl-section" type="text/template">
+        <section>
+            <cite></cite>
+            <figure style="overflow: hidden;"></figure>
+            <blockquote style="position: absolute; bottom: 80px; width: 100%; height: 120px; opacity:0.6;">
+                <div>{{address}}</div>
+                <div>{{content}}</div>
+            </blockquote>
+        </section>
+    </script>
+    <script id="tmpl-section-image" type="text/template">
+        <img style="height: 100%;" src="{{url}}" ／>
+    </script>
+    <script type="text/javascript" src="javascripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="javascripts/handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="javascripts/hammer.min.js"></script>
+</head>
+<body>
     <style type="text/css">
 html, body, #container, article, #content {
     position: relative;
@@ -25,6 +43,22 @@ html, body, #container, article, #content {
     padding: 0px;
     margin: 0px;
 }
+.inline{
+    /*display: inline-flex;
+    margin-left: -6px;*/
+     -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: wrap row;
+  flex-flow: wrap row;
+}
+/*.inline.first{
+    margin-left: auto !important;
+}*/
     </style>
     <style type="text/css" media="all and (orientation:portrait)">
     
@@ -32,48 +66,8 @@ html, body, #container, article, #content {
     <style type="text/css" media="all and (orientation:landscape)">
     
     </style>
-    <script id="tmpl-section" type="text/template">
-        <section>
-            <cite></cite>
-            <figure style="overflow: hidden;"></figure>
-            <blockquote style="position: absolute; bottom: 80px; width: 100%; height: 120px; opacity:0.6;">
-                <div>{address}</div>
-                <div>{content}</div>
-            </blockquote>
-        </section>
-    </script>
-    <script id="tmpl-section-image" type="text/template">
-        <img style="height: 100%;" src="{url}" ／>
-    </script>
-    <script type="text/javascript" src="javascripts/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="javascripts/hammer.min.js"></script>
     <script type="text/javascript">
 $(function () {
-    // var orientation_change = function() {
-    //     var viewport = document.querySelector('meta[name="viewport"]');
-    //     if (window.orientation == 0 || window.orientation == 180) {
-    //         viewport.setAttribute("content", "width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no");
-    //     } else if (window.orientation == -90 || window.orientation == 90) {
-    //         viewport.setAttribute("content", "width=device-height, maximum-scale=1.0, initial-scale=1.0, user-scalable=no");
-    //     }
-    // }
-    // orientation_change();
-    // window.onorientationchange = orientation_change;
-    
-    function orientationChange(){ 
-        switch(window.orientation) { 
-            case 0: // Portrait 
-            case 180: // Upside-down Portrait 
-                alert("竖屏状态！");
-                break; 
-            case -90: // Landscape: turned 90 degrees counter-clockwise 
-            case 90: // Landscape: turned 90 degrees clockwise 
-                alert("横屏状态！");
-                break; 
-        } 
-    } 
-    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false); 
-    
     var data = [
         {
             imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
@@ -98,56 +92,77 @@ $(function () {
         }
     ];
     
-    // var tmplsection = Handlebars.compile($("#tmpl-section").html());
-    // var tmplsectionimage = Handlebars.compile($("#tmpl-section-image").html());
+    var tmplsection = Handlebars.compile($("#tmpl-section").html());
+    var tmplsectionimage = Handlebars.compile($("#tmpl-section-image").html());
+    var template={
+        section: $("#tmpl-section").html(),
+        sectionimage: $("#tmpl-section-image").html()
+    };
     
-    var hammer = new Hammer($("#container").get(0));
-	hammer.on('swipeleft', function(events, handler){
-        $("#viewport").animate({ scrollLeft: "+={width}".replace("{width}", $("#viewport").width()) }, "fast");
-    });
-	hammer.on('swiperight', function(events, handler){
-        $("#viewport").animate({ scrollLeft: "-={width}".replace("{width}", $("#viewport").width()) }, "fast");
-    });
-    
-    var setanimate = function(section, a) {
-        var s = section.find("img").width() - section.width();
-        var figure = section.find("figure");
-        if(s > 0) {
-            var v = a ? ("+=" + s) : ("-=" + s);
-            figure.animate({ scrollLeft: v }, s * 100, "linear", function (e) {
-                setanimate.call(this, section, !a);
-                // $("figure").stop(true);
-            });
+    var handler = {
+        imagereview: function(section, a) {
+            var s = section.find("img").width() - section.width();
+            var figure = section.find("figure");
+            if(s > 0) {
+                var v = a ? ("+=" + s) : ("-=" + s);
+                figure.animate({ scrollLeft: v }, s * 100, "linear", function (e) {
+                    handler.imagereview.call(this, section, !a);
+                    // $("figure").stop(true);
+                });
+            }
+        },
+        swipeleft: function(events, handler){
+            $("#viewport").animate({ scrollLeft: "+={width}".replace("{width}", $("#viewport").width()) }, "fast");
+        },
+        swiperight: function(events, handler){
+            $("#viewport").animate({ scrollLeft: "-={width}".replace("{width}", $("#viewport").width()) }, "fast");
         }
     };
     
     $.each(data, function(index, item) {
-        var section = $($("#tmpl-section").html()
+        var section = $(template.section
             .replace("{address}", item.address)
             .replace("{content}", item.content)
         ).width($("#viewport").width()).css({left: index * $("#viewport").width()}).appendTo("#viewport");
-        $($("#tmpl-section-image").html().replace("{url}", item.imageurl)).load(function(){
+        $(template.sectionimage.replace("{url}", item.imageurl)).load(function(){
             section.find("figure").append(this);
-            setanimate.call(this, section, true); 
+            handler.imagereview.call(this, section, true); 
         });
     });
+    
+    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+        switch(window.orientation) { 
+            case 0: // Portrait
+            case 180: // Upside-down Portrait 
+                // alert("竖屏状态！");
+                break;
+            case -90: // Landscape: turned 90 degrees counter-clockwise 
+            case 90: // Landscape: turned 90 degrees clockwise 
+                // alert("横屏状态！");
+                break;
+        }
+    }, false); 
+    var hammer = new Hammer($("#container").get(0));
+	hammer.on('swipeleft', handler.swipeleft);
+	hammer.on('swiperight', handler.swiperight);
 });
     </script>
-</head>
-<body>
-    <header style="position: fixed; top: 0px; width: 100%; height: 40px; opacity:0.6; z-index:100; background: #000;">
-        <div style="">
-            <div style="width: 40px; height: 40px; float:left; background: #fff;">《</div>
-            <div style="width: 40px; height: 40px; float:right; background: #fff;">下载APP</div>
-        </div>
+    <header class="inline" style="position: fixed; top: 0px; width: 100%; height: 40px; line-height: 40px; opacity:0.6; z-index:100; background: #000;">
+        <div style="width: 40px; height: 40px; text-align: center; background: #fff;">《</div>
+        <div style="width: 240px; height: 40px; text-align: center; background: #fff;">TOWN for Agumn</div>
+        <div style="width: 40px; height: 40px; text-align: center; background: #fff;">下载</div>
     </header>
     <div id="container" style="z-index:10; background: red;">
         <article>
             <div id="content">
                 <div id="viewport" style="overflow: hidden; background: blue;">
                 </div>
-                <nav style="position: absolute; bottom: 40px; width: 100%; height: 40px; opacity:0.6; background: orange;">
-                    . . . . . .
+                <nav class="inline" style="position: absolute; bottom: 40px; width: 100%; height: 40px; line-height: 40px; opacity:0.6; background: #fff;">
+                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
+                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
+                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
+                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
+                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
                 </nav>
             </div>
             <address style="position: absolute; bottom: 0px; width: 100%; height: 40px; opacity:0.6; background: orange;">
