@@ -1,176 +1,129 @@
-<!DOCTYPE html>
-<html lang="zh" xml:lang="zh" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-    <title>TOWN | {{title}}</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css" />
-    <link rel="stylesheet" type="text/css" media="all and (orientation:portrait)" href="/stylesheets/p.css" /> 
-    <link rel="stylesheet" type="text/css" media="all and (orientation:landscape)" href="/stylesheets/l.css" />
-    <script id="tmpl-section" type="text/template">
-        <section>
-            <cite></cite>
-            <figure style="overflow: hidden;"></figure>
-            <blockquote style="position: absolute; bottom: 80px; width: 100%; height: 120px; opacity:0.6;">
-                <div>{{address}}</div>
-                <div>{{content}}</div>
-            </blockquote>
-        </section>
-    </script>
-    <script id="tmpl-section-image" type="text/template">
-        <img style="height: 100%;" src="{{url}}" ／>
-    </script>
-    <script type="text/javascript" src="javascripts/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="javascripts/handlebars-v4.0.5.js"></script>
-    <script type="text/javascript" src="javascripts/hammer.min.js"></script>
-</head>
-<body>
-    <style type="text/css">
-html, body, #container, article, #content {
-    position: relative;
-    width: 100%;
+<script id="tmpl-section" type="text/template">
+    <section>
+        <cite></cite>
+        <figure style="overflow: hidden;"></figure>
+        <blockquote style="">
+            <div>\{{address}}</div>
+            <div>\{{content}}</div>
+        </blockquote>
+    </section>
+</script>
+<script id="tmpl-section-image" type="text/template">
+    <img style="" src="\{{imageurl}}" ／>
+</script>
+<script id="tmpl-nav-item" type="text/template">
+    <div style="width: 20px; height: 40px; text-align: center;">.</div>
+</script>
+<style type="text/css">
+
+</style>
+<style type="text/css" media="all and (orientation:portrait)">
+figure img {
     height: 100%;
-    padding: 0px;
-    margin: 0px;
 }
-#viewport, section, figure {
-    position: absolute;
+</style>
+<style type="text/css" media="all and (orientation:landscape)">
+figure img {
     width: 100%;
-    height: 100%;
-    padding: 0px;
-    margin: 0px;
 }
-.inline{
-    /*display: inline-flex;
-    margin-left: -6px;*/
-     -ms-box-orient: horizontal;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: wrap row;
-  flex-flow: wrap row;
-}
-/*.inline.first{
-    margin-left: auto !important;
-}*/
-    </style>
-    <style type="text/css" media="all and (orientation:portrait)">
-    
-    </style>
-    <style type="text/css" media="all and (orientation:landscape)">
-    
-    </style>
-    <script type="text/javascript">
-$(function () {
-    var data = [
-        {
-            imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
-            address: "崇礼",
-            content: "入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。"
-        }, {
-            imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
-            address: "崇礼",
-            content: "入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。"
-        }, {
-            imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
-            address: "崇礼",
-            content: "入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。"
-        }, {
-            imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
-            address: "崇礼",
-            content: "入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。"
-        }, {
-            imageurl: "http://7xj9d8.com2.z0.glb.qiniucdn.com/o_1a3bljrbl1tcd16lr1of71b2020j7.jpg-homepage.jpeg",
-            address: "崇礼",
-            content: "入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。入冬后北方的雪场陆续开放，离京城 300 公里的崇礼县，没有雾霾。"
-        }
-    ];
-    
-    var tmplsection = Handlebars.compile($("#tmpl-section").html());
-    var tmplsectionimage = Handlebars.compile($("#tmpl-section-image").html());
-    var template={
-        section: $("#tmpl-section").html(),
-        sectionimage: $("#tmpl-section-image").html()
+</style>
+<script type="text/javascript">
+$(function() {
+    var data = {{{json data.datasource}}};
+    var states = {
+        orientation: -1
     };
-    
+    var template = {
+        section: Handlebars.compile($("#tmpl-section").html()),
+        sectionimage: Handlebars.compile($("#tmpl-section-image").html()),
+        navitem: Handlebars.compile($("#tmpl-nav-item").html())
+    };
     var handler = {
-        imagereview: function(section, a) {
-            var s = section.find("img").width() - section.width();
+        imagereview: function(section, isleft) {
+            var distance = section.find("img").width() - section.width();
             var figure = section.find("figure");
-            if(s > 0) {
-                var v = a ? ("+=" + s) : ("-=" + s);
-                figure.animate({ scrollLeft: v }, s * 100, "linear", function (e) {
-                    handler.imagereview.call(this, section, !a);
+            if(distance > 0) {
+                figure.animate({ scrollLeft: (isleft ? "+=" : "-=") + distance }, distance * 100, "linear", function() {
+                    handler.imagereview.call(this, section, !isleft);
                     // $("figure").stop(true);
                 });
             }
         },
-        swipeleft: function(events, handler){
-            $("#viewport").animate({ scrollLeft: "+={width}".replace("{width}", $("#viewport").width()) }, "fast");
+        swipeleft: function(ev){
+            $("#viewport").animate({ 
+                scrollLeft: "+={width}".replace("{width}", $("#viewport").width()) 
+            }, "fast", function() {
+                handler.navshow.call(this, parseInt($("#viewport").scrollLeft() / $("#viewport").width())); 
+            });
         },
-        swiperight: function(events, handler){
-            $("#viewport").animate({ scrollLeft: "-={width}".replace("{width}", $("#viewport").width()) }, "fast");
+        swiperight: function(ev){
+            $("#viewport").animate({ 
+                scrollLeft: "-={width}".replace("{width}", $("#viewport").width()) 
+            }, "fast", function() {
+                handler.navshow.call(this, parseInt($("#viewport").scrollLeft() / $("#viewport").width()));
+            });
+        },
+        navshow: function(index) {
+            $("nav > div").css({color: '#666'});
+            $("nav > div:eq({index})".replace("{index}", index)).css({color: 'red'});
+        },
+        render: function() {
+            $("#viewport > *").remove();
+            $("nav > *").remove();
+            
+            $.each(data, function(index, item) {
+                var section = $(template.section(item))
+                    .width($("#viewport").width())
+                    .css({left: index * $("#viewport").width()})
+                    .appendTo("#viewport");
+                var navitem = $(template.navitem()).appendTo("nav");
+                $(template.sectionimage(item)).load(function(){
+                    section.find("figure").append(this);
+                    handler.imagereview.call(this, section, true); 
+                });
+            });
+        },
+        orientationchange: function() {
+            if(states.orientation !== window.orientation) {
+                handler.render.call(this);
+                handler.navshow.call(this, 0);
+            }
+            // switch(window.orientation) { 
+            //     // 竖屏
+            //     case 0: // Portrait
+            //     case 180: // Upside-down Portrait 
+            //     // 横屏
+            //     case -90: // Landscape: turned 90 degrees counter-clockwise 
+            //     case 90: // Landscape: turned 90 degrees clockwise 
+            // }
         }
     };
     
-    $.each(data, function(index, item) {
-        var section = $(template.section
-            .replace("{address}", item.address)
-            .replace("{content}", item.content)
-        ).width($("#viewport").width()).css({left: index * $("#viewport").width()}).appendTo("#viewport");
-        $(template.sectionimage.replace("{url}", item.imageurl)).load(function(){
-            section.find("figure").append(this);
-            handler.imagereview.call(this, section, true); 
-        });
-    });
-    
-    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
-        switch(window.orientation) { 
-            case 0: // Portrait
-            case 180: // Upside-down Portrait 
-                // alert("竖屏状态！");
-                break;
-            case -90: // Landscape: turned 90 degrees counter-clockwise 
-            case 90: // Landscape: turned 90 degrees clockwise 
-                // alert("横屏状态！");
-                break;
-        }
-    }, false); 
+    handler.orientationchange.call(this);
+
     var hammer = new Hammer($("#container").get(0));
 	hammer.on('swipeleft', handler.swipeleft);
 	hammer.on('swiperight', handler.swiperight);
+    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", handler.orientationchange, false); 
 });
-    </script>
-    <header class="inline" style="position: fixed; top: 0px; width: 100%; height: 40px; line-height: 40px; opacity:0.6; z-index:100; background: #000;">
-        <div style="width: 40px; height: 40px; text-align: center; background: #fff;">《</div>
-        <div style="width: 240px; height: 40px; text-align: center; background: #fff;">TOWN for Agumn</div>
-        <div style="width: 40px; height: 40px; text-align: center; background: #fff;">下载</div>
-    </header>
-    <div id="container" style="z-index:10; background: red;">
-        <article>
-            <div id="content">
-                <div id="viewport" style="overflow: hidden; background: blue;">
-                </div>
-                <nav class="inline" style="position: absolute; bottom: 40px; width: 100%; height: 40px; line-height: 40px; opacity:0.6; background: #fff;">
-                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
-                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
-                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
-                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
-                    <div style="width: 20px; height: 40px; text-align: center;">.</div>
-                </nav>
+</script>
+<header class="inline" style="background: #000;">
+    <div style="width: 40px; height: 40px; text-align: center; background: #fff;">《</div>
+    <div style="width: 240px; height: 40px; text-align: center; background: #fff;">TOWN for Agumn</div>
+    <div style="width: 40px; height: 40px; text-align: center; background: #fff;">下载</div>
+</header>
+<div id="container" style="background: red;">
+    <article>
+        <div id="content">
+            <div id="viewport" style="background: blue;">
             </div>
-            <address style="position: absolute; bottom: 0px; width: 100%; height: 40px; opacity:0.6; background: orange;">
-                英王小子
-            </address>
-        </article>
-    </div>
-    <!--<footer style="position: fixed; bottom: 0px; width: 100%; height: 40px; opacity:0.6; z-index:90; background: #000;">
-    </footer>-->
-</body>
-</html>
+            <nav class="inline" style="background: #fff;">
+            </nav>
+        </div>
+        <address style="background: orange;">
+            英王小子
+        </address>
+    </article>
+</div>
+<!--<footer style="position: fixed; bottom: 0px; width: 100%; height: 40px; opacity:0.6; z-index:90; background: #000;">
+</footer>-->

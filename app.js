@@ -3,14 +3,20 @@ var expresshandlebars = require('express-handlebars');
 var path = require('path');
 // var favicon = require('serve-favicon');
 
-var routesException = require('./routes/exception');
-var routesIndex = require('./routes/index');
-var routesStory = require('./routes/story');
-var routesVenue = require('./routes/venue');
-var routesPerson = require('./routes/person');
+var helperException = require('./helpers/exception');
+var helperHandlebars = require('./helpers/handlebars');
+
+var routerIndex = require('./routes/index');
+var routerStory = require('./routes/story');
+var routerVenue = require('./routes/venue');
+var routerPerson = require('./routes/person');
 
 var app = express();
 var hbs = expresshandlebars.create({
+	defaultLayout: 'main',
+	helpers: {
+        json: helperHandlebars.json
+    }
 });
 
 app.engine('handlebars', hbs.engine);
@@ -19,12 +25,12 @@ app.set('view engine', 'handlebars');
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routesIndex);
-app.use('/story', routesStory);
-app.use('/venue', routesVenue);
-app.use('/person', routesPerson);
+app.use('/', routerIndex);
+app.use('/story', routerStory);
+app.use('/venue', routerVenue);
+app.use('/person', routerPerson);
 
-app.use(routesException.notfound);
-app.use(routesException.error);
+app.use(helperException.notfound);
+app.use(helperException.error);
 
 module.exports = app;
