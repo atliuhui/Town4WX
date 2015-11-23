@@ -1,0 +1,24 @@
+{
+  "name": "Town4WX",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "moduleType": [
+    "node"
+  ],
+  "homepage": "https://github.com/atliuhui/Town4WX",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "authors": [
+    "LIU Hui <atliuhui@outlook.com>"
+  ],
+  "dependencies": {
+    "handlebars": "4.0.5",
+    "jquery": "1.11.3"
+  }
+}
